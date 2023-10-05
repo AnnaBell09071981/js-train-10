@@ -38,7 +38,7 @@ function customEntries(obj) {
     return "Помилка: Аргумент не є об'єктом.";
   }
   for(const [key, value] of Object.entries(obj)) {
-    return (`${key}: ${value}`);
+    return obj;
   }
   // Перевірка, чи переданий аргумент є об'єктом, якщо ні повертаємо "Помилка: Аргумент не є об'єктом."
   // Використання методу `entries` для отримання масиву з усіма властивостями та значеннями
@@ -68,9 +68,9 @@ function customObjectFromEntries(entries) {
   if(!Array.isArray(entries)) {
     return "Помилка: Аргумент не є об'єктом.";
   }
-  // const entriesMap = entries.map((key) => key === "number");
-  // const entriesNum = entriesMap.toString([key]);
-  // return entriesMap;
+  const entriesMap = entries.map((key) => String(key));
+  const obj = Object.fromEntries(entries);
+  return obj;
   // Перевірка, чи вхідний аргумент є масивом,якщо ні повертаєм "Помилка: Вхідний аргумент має бути масивом."
   // Використання методу `map` для обробки значень властивостей
   // Перевірка, чи ключ  є числом
@@ -188,13 +188,8 @@ function filterObjectsByKey(arr, key) {
   if(!Array.isArray(arr)) {
     return [];
   }
-  const arrFil = arr.filter((item) => {
-    if(Object.keys(item) === arr[key]) {
-      console.log(arrFil);
-    }
-  });
-  console.log(arrFil);
-  // return arrFil;
+  const arrFil = arr.filter((key1) => key !== key1);
+  return arrFil;
   // Перевіряємо, чи вхідний параметр є масивом, якщо ні, повертаємо пустий масив
   // Використовуємо метод filter() для вибірки об'єктів, що містять вказаний ключ
   // Повертаємо новий масив з об'єктами, що містять вказаний ключ
@@ -333,9 +328,15 @@ function convertArrayToObj(arr) {
     return [];
   }
   let obj = {};
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 1; i < arr.length; i++) {
     const [key, value] = arr;
-    obj = arr;
+    if(key[0] !== key[i]) {
+      obj = key[i];
+    } else {
+      console.log(`У масиві є дубльований ключ: ${key}`)
+    }
+    obj = [key, value];
+    Object.fromEntries(obj);
   }
   return obj;
 
